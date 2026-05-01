@@ -7,8 +7,9 @@ buildscript {
         maven("https://jitpack.io")
     }
     dependencies {
-        classpath("com.github.recloudstream:gradle:-SNAPSHOT")
-        classpath("org.jetbrains.kotlin:kotlin-gradle-plugin:1.9.0")
+        // We are using a stable version of the gradle plugin
+        classpath("com.github.recloudstream:gradle:master-SNAPSHOT")
+        classpath("org.jetbrains.kotlin:kotlin-gradle-plugin:1.9.20")
     }
 }
 
@@ -16,7 +17,17 @@ apply(plugin = "com.android.library")
 apply(plugin = "kotlin-android")
 apply(plugin = "com.lagradost.cloudstream3.gradle")
 
-configure<CloudstreamExtension> {
-    // This creates the 'builds' folder we need
-    setDestConfig("builds")
+// This block tells the builder where to save the .sub file
+cloudstream {
+    destination = file("builds")
+}
+
+// Basic Android settings required for the build
+android {
+    namespace = "com.myname"
+    compileSdk = 34
+    
+    defaultConfig {
+        minSdk = 21
+    }
 }
