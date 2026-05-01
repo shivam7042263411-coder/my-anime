@@ -1,5 +1,3 @@
-import com.lagradost.cloudstream3.gradle.CloudstreamExtension
-
 buildscript {
     repositories {
         google()
@@ -7,9 +5,9 @@ buildscript {
         maven("https://jitpack.io")
     }
     dependencies {
-        // We are using a stable version of the gradle plugin
-        classpath("com.github.recloudstream:gradle:master-SNAPSHOT")
+        classpath("com.android.tools.build:gradle:8.2.2")
         classpath("org.jetbrains.kotlin:kotlin-gradle-plugin:1.9.20")
+        classpath("com.github.recloudstream:gradle:master-SNAPSHOT")
     }
 }
 
@@ -17,16 +15,14 @@ apply(plugin = "com.android.library")
 apply(plugin = "kotlin-android")
 apply(plugin = "com.lagradost.cloudstream3.gradle")
 
-// This block tells the builder where to save the .sub file
-cloudstream {
+// We use "extensions.configure" to make sure the plugin is loaded first
+extensions.configure<com.lagradost.cloudstream3.gradle.CloudstreamExtension>("cloudstream") {
     destination = file("builds")
 }
 
-// Basic Android settings required for the build
-android {
+configure<com.android.build.gradle.LibraryExtension> {
     namespace = "com.myname"
     compileSdk = 34
-    
     defaultConfig {
         minSdk = 21
     }
