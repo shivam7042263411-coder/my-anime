@@ -15,9 +15,10 @@ apply(plugin = "com.android.library")
 apply(plugin = "kotlin-android")
 apply(plugin = "com.lagradost.cloudstream3.gradle")
 
-// We use "extensions.configure" to make sure the plugin is loaded first
-extensions.configure<com.lagradost.cloudstream3.gradle.CloudstreamExtension>("cloudstream") {
-    destination = file("builds")
+// Simplified configuration
+configure<com.lagradost.cloudstream3.gradle.CloudstreamExtension> {
+    // We removed 'destination =' and replaced it with this:
+    setDestConfig("builds")
 }
 
 configure<com.android.build.gradle.LibraryExtension> {
