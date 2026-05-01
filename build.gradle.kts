@@ -1,49 +1,16 @@
-import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
-
-buildscript {
-    repositories {
-        google()
-        mavenCentral()
-        maven("https://jitpack.io")
-    }
-    dependencies {
-        classpath("com.android.tools.build:gradle:8.2.2")
-        classpath("org.jetbrains.kotlin:kotlin-gradle-plugin:1.9.20")
-        classpath("com.github.recloudstream:gradle:master-SNAPSHOT")
-    }
+plugins {
+    alias(libs.plugins.android.application) apply false
+    alias(libs.plugins.android.lint) apply false
+    alias(libs.plugins.android.multiplatform.library) apply false
+    alias(libs.plugins.buildkonfig) apply false // Universal build config
+    alias(libs.plugins.dokka) apply false
+    alias(libs.plugins.kotlin.jvm) apply false
+    alias(libs.plugins.kotlin.multiplatform) apply false
 }
 
-repositories {
-    google()
-    mavenCentral()
-    maven("https://jitpack.io")
-}
-
-apply(plugin = "com.android.library")
-apply(plugin = "kotlin-android")
-apply(plugin = "com.lagradost.cloudstream3.gradle")
-
-configure<com.lagradost.cloudstream3.gradle.CloudstreamExtension> {
-    // Basic config
-}
-
-configure<com.android.build.gradle.LibraryExtension> {
-    namespace = "com.myname"
-    compileSdk = 34
-    
-    defaultConfig {
-        minSdk = 21
-    }
-
-    compileOptions {
-        sourceCompatibility = JavaVersion.VERSION_17
-        targetCompatibility = JavaVersion.VERSION_17
-    }
-}
-
-// This is a more stable way to set the JVM target for Kotlin
-tasks.withType<KotlinCompile> {
-    kotlinOptions {
-        jvmTarget = "17"
+allprojects {
+    // https://docs.gradle.org/current/userguide/upgrading_major_version_9.html#test_task_fails_when_no_tests_are_discovered
+    tasks.withType<AbstractTestTask>().configureEach {
+        failOnNoDiscoveredTests = false
     }
 }
