@@ -1,3 +1,5 @@
+import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
+
 buildscript {
     repositories {
         google()
@@ -33,12 +35,14 @@ configure<com.android.build.gradle.LibraryExtension> {
         minSdk = 21
     }
 
-    // THIS IS THE NEW PART TO FIX THE JVM ERROR
     compileOptions {
         sourceCompatibility = JavaVersion.VERSION_17
         targetCompatibility = JavaVersion.VERSION_17
     }
+}
 
+// This is a more stable way to set the JVM target for Kotlin
+tasks.withType<KotlinCompile> {
     kotlinOptions {
         jvmTarget = "17"
     }
