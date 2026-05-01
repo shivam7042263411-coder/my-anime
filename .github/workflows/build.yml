@@ -1,0 +1,21 @@
+name: Build
+on: [push, workflow_dispatch]
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - name: Set up JDK 17
+        uses: actions/setup-java@v3
+        with:
+          java-version: '17'
+          distribution: 'temurin'
+      - name: Build
+        run: |
+          chmod +x gradlew
+          ./gradlew makePlugins
+      - name: Push to Builds
+        uses: JamesIves/github-pages-deploy-action@v4
+        with:
+          folder: builds
+          branch: builds
