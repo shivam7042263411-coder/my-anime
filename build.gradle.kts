@@ -11,7 +11,6 @@ buildscript {
     }
 }
 
-// THIS IS THE NEW PART WE ARE ADDING
 repositories {
     google()
     mavenCentral()
@@ -29,7 +28,18 @@ configure<com.lagradost.cloudstream3.gradle.CloudstreamExtension> {
 configure<com.android.build.gradle.LibraryExtension> {
     namespace = "com.myname"
     compileSdk = 34
+    
     defaultConfig {
         minSdk = 21
+    }
+
+    // THIS IS THE NEW PART TO FIX THE JVM ERROR
+    compileOptions {
+        sourceCompatibility = JavaVersion.VERSION_17
+        targetCompatibility = JavaVersion.VERSION_17
+    }
+
+    kotlinOptions {
+        jvmTarget = "17"
     }
 }
